@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyCronGenerator Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/intellij-light.min.css    ">
+    <script src="../src/EasyCron.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <style>
+        #crongui{
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        label{
+            text-wrap: nowrap;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>EasyCronGenerator Demo</h1>
+        <span>Language:</span>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="languageSelection" id="langEn" value="en" checked>
+            <label class="form-check-label" for="langEn">en</label>
+        </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="languageSelection" id="langTr" value="tr">
+            <label class="form-check-label" for="langTr">tr</label>
+        </div>
+        <div id="crongui" class="mt-4"></div>
+        <br>
+        <h4>Result</h4>
+        <input type="text" id="myInput" class="form-control">
+        <br>
+        <h4>Usage</h4>
+            <pre id="usage"><code class="language-javascript">EasyCronGenerator.init('#crongui', {
+    language: "en",
+    selectClasses: "form-select d-inline",
+    valueInputSelector: "#myInput",
+    callbackFunction: cb
+});</code></pre>
+    </div>
+    <script>
+        function cb(cronEx) {
+            console.log(cronEx);
+        }
+        
+        const radioBtns = document.querySelectorAll("[name=languageSelection]");
+
+        radioBtns.forEach(radioBtn => {
+            radioBtn.addEventListener('change', () => {
+                EasyCronGenerator.init('#crongui', {
+                language: radioBtn.value,
+                selectClasses: "form-select d-inline",
+                valueInputSelector: "#myInput",
+                callbackFunction: cb
+                });
+                document.getElementById('usage').innerHTML = `<code class="language-javascript">EasyCronGenerator.init('#crongui', {
+    language: "${radioBtn.value}",
+    selectClasses: "form-select d-inline",
+    valueInputSelector: "#myInput",
+    callbackFunction: cb
+});</code>`;
+                hljs.initHighlighting();
+            });
+        });
+
+        EasyCronGenerator.init('#crongui', {
+            language: "en",
+            selectClasses: "form-select d-inline",
+            valueInputSelector: "#myInput",
+            callbackFunction: cb
+        });
+    </script>
+</body>
+</html>
